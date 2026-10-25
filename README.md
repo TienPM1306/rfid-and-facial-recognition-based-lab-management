@@ -13,7 +13,7 @@ Course project (January 2025), team of 2.
 </p>
 
 <p align="center">
-  <img width="700" alt="Admin dashboard: check-in and check-out log" src="https://github.com/user-attachments/assets/1749a517-6dc9-43af-a7d8-0f0fffefb137" /><br>
+  <img width="700" alt="Admin dashboard: check-in and check-out log" src="https://github.com/user-attachments/assets/f1a44573-a89a-4c4a-aa01-61c71ffc35e8" /><br>
   <em>Figure 2. Admin dashboard (Vietnamese interface): check-in / check-out log with card UID, member name, department, email, time and status.</em>
 </p>
 
