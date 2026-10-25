@@ -1,0 +1,86 @@
+.heading h1 {
+    color: #ffffff;
+    background: #007BFF;
+    line-height: 60px;
+    font-weight: bold;
+    font-family: 'Aldrich';
+    font-size: 60px;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+@media only screen and (max-width: 600px) {
+    .heading h1 {
+        font-size: 20px;
+    }
+}
+.heading {
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer; /* Add this line */
+}
+.heading i {
+    position: absolute;
+    left: 90%;
+    top: 14%;
+}
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 80%;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody td {
+    text-align: center;
+}
+
+tbody tr:hover {
+    background-color: #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+    .heading h1 {
+        font-size: 20px;
+    }
+}
+
+.heading {
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer; /* Add this line */
+}
+
+.heading i {
+    position: absolute;
+    left: 90%;
+    top: 14%;
+}
