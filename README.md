@@ -7,6 +7,12 @@ Course project (January 2025), team of 2.
 ## Demo
 
 > [Add 3–4 images here: the finished hardware, the dashboard, the live status page, the card registration page. Add a short demo video link if you have one.]
+<p align="center">
+  <img width="350" alt="RFID-RC522 reader wired to an ESP32" src="https://github.com/user-attachments/assets/7af65068-cd1b-43e0-ac3c-d9551df72699" /><br>
+  <em>Figure 1. Hardware prototype: RFID-RC522 reader wired to an ESP32 on a screw-terminal breakout board.</em>
+</p>
+
+
 
 ## Features
 
@@ -83,13 +89,9 @@ flowchart LR
 ## My role
 
 I worked on the software (web dashboard and face matching) and on the hardware assembly: wiring and mounting the modules.
-My teammate, Nguyễn Thanh Tuấn, [add his part].
+My teammate, Nguyễn Thanh Tuấn, built the hardware..
 
 ## Authors
 
 - Phạm Minh Tiến
 - Nguyễn Thanh Tuấn
-
-## Contact
-
-[Your email or LinkedIn link]
