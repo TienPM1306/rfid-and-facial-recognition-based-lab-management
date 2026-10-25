@@ -6,7 +6,6 @@ Course project (January 2025), team of 2.
 
 ## Demo
 
-> [Add 3–4 images here: the finished hardware, the dashboard, the live status page, the card registration page. Add a short demo video link if you have one.]
 <p align="center">
   <img width="350" alt="RFID-RC522 reader wired to an ESP32" src="https://github.com/user-attachments/assets/7af65068-cd1b-43e0-ac3c-d9551df72699" /><br>
   <em>Figure 1. Hardware prototype: RFID-RC522 reader wired to an ESP32 on a screw-terminal breakout board.</em>
@@ -57,22 +56,19 @@ flowchart LR
 | ESP32-CAM (OV2640 camera) | Main controller; captures JPEG photos; WiFi connection |
 | RFID RC522 module | Reads the card, 13.56 MHz, SPI interface |
 | DS1307 RTC module | Real-time clock, I2C interface |
-| Buzzer / indicators | [Add if used] |
+| Buzzer / indicators |
 
-> [Add the schematic and PCB images under `docs/` if they are yours to share. The project report covers PCB design in Altium Designer.]
 
 ## Software
 
-- **Firmware** for the ESP32-CAM: card reading, photo capture, communication with the database. [Arduino IDE / PlatformIO: confirm]
-- **Face detection** with OpenCV, using the **Haar Cascade frontal face** classifier (grayscale conversion, sliding window, cascade stages, overlapping detections merged). [Add one line on how the captured face is matched with the stored reference photo.]
+- **Firmware** for the ESP32-CAM: card reading, photo capture, communication with the database.
+- **Face detection** with OpenCV, using the **Haar Cascade frontal face** classifier (grayscale conversion, sliding window, cascade stages, overlapping detections merged).
 - **Web dashboard** for administrators, backed by Firebase. Main pages:
   - Lab management: card UID, name, department, email, scan time, status.
   - Live status: green for check-in, red for check-out.
   - Member list and card registration form.
 
 ## Project structure
-
-> [Adjust to match your folders.]
 
 ```
 .
@@ -82,15 +78,6 @@ flowchart LR
 ├── hardware/        # schematic, PCB, photos
 └── docs/            # block diagram, screenshots
 ```
-
-## Getting started
-
-> [Fill in the real steps. A short, working list is enough.]
-
-1. Flash the firmware to the ESP32-CAM and set your WiFi and database settings in [file name].
-2. Create a Firebase project and add its configuration to [file name].
-3. Install the Python requirements (`pip install opencv-python ...`) and run [script name].
-4. Open the dashboard at [URL / file].
 
 > Never commit WiFi passwords or Firebase keys. Keep them in a local config file listed in `.gitignore` and provide an example file instead.
 
