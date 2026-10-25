@@ -12,7 +12,15 @@ Course project (January 2025), team of 2.
   <em>Figure 1. Hardware prototype: RFID-RC522 reader wired to an ESP32 on a screw-terminal breakout board.</em>
 </p>
 
+<p align="center">
+  <img width="700" alt="Admin dashboard: check-in and check-out log" src="https://github.com/user-attachments/assets/1749a517-6dc9-43af-a7d8-0f0fffefb137" /><br>
+  <em>Figure 2. Admin dashboard (Vietnamese interface): check-in / check-out log with card UID, member name, department, email, time and status.</em>
+</p>
 
+<p align="center">
+  <img width="600" alt="Firebase Realtime Database structure" src="https://github.com/user-attachments/assets/4b6d99e8-9acf-4ef3-a8bf-e573abdc9091" /><br>
+  <em>Figure 3. Firebase Realtime Database: employee records keyed by RFID card UID, plus the attendance log.</em>
+</p>
 
 ## Features
 
