@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pham Minh Tien</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/employment.css">
+  </head>
+  <body>
+    <div class="heading" id="headingBox">
+      <h1>Quản lí phòng lab</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+    crossorigin="anonymous"></script>
+
+    <div class="container mt-3">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">STT</th>
+            <th class="text-center">UID</th>
+            <th class="text-center">Họ tên nhân viên</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Bộ phận</th>
+          </tr>
+        </thead>
+        <tbody id="tbody1">
+        </tbody>
+      </table>
+    </div>
+    <script type="module">
+      
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+      import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDeZNXH6bRRKZj-mdm6ciwgO17nbdPsIwY",
+        authDomain: "tien-ff9d3.firebaseapp.com",
+        databaseURL: "https://tien-ff9d3-default-rtdb.firebaseio.com",
+        projectId: "tien-ff9d3",
+        storageBucket: "tien-ff9d3.firebasestorage.app",
+        messagingSenderId: "921291847664",
+        appId: "1:921291847664:web:be26511f9770c227020f35",
+        measurementId: "G-EY934N85NL"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase();
+
+      let employeeslist = [];
+      let stt = 0;
+      let tbody = document.getElementById('tbody1');
+
+      const SelectAllDataOnce = () => {
+        const dbRef = ref(db);
+        get(child(dbRef, 'ListOfEmployees')).then((snapshot) => {
+          employeeslist = [];
+          snapshot.forEach(employee => {
+            employeeslist.push(employee.val());
+          });
+          AddAllRecords();
+        })  
+      }
+
+      const AddSingleRecord = (Cnic, Name, Email, Department, Canswin) => {
+        let trow = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+        let td4 = document.createElement('td');
+        let td5 = document.createElement('td');
+
+        td1.classList.add('text-center');
+        td2.classList.add('text-center');
+        td3.classList.add('text-center');
+        td4.classList.add('text-center');
+        td5.classList.add('text-center');
+
+        td1.innerHTML = ++stt;
+        td2.innerHTML = Cnic;
+        td3.innerHTML = Name;
+        td4.innerHTML = Email;
+        td5.innerHTML = Department;
+        
+        trow.append(td1, td2, td3, td4, td5);
+        tbody.append(trow);
+      }
+
+      const AddAllRecords = () => {
+        stt = 0;
+        tbody.innerHTML = "";
+        employeeslist.forEach(employee => {
+          AddSingleRecord(employee.Cnic, employee.Name, employee.Email, employee.Department, employee.Canswin);
+        });
+      }
+
+      window.addEventListener('load', SelectAllDataOnce);
+
+      document.getElementById('headingBox').onclick = function() {
+        window.location.href = 'web.html';
+      };
+
+    </script>
+  </body>
+</html>

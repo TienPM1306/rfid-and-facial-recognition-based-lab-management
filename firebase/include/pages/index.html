@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/attendence-system/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="heading">
+        <h1>QUẢN LÍ PHÒNG LAB</h1>
+    </div>  
+    <div class="container">
+        <h2>Đăng ký thẻ</h2>
+        <div class="form-container">
+            <form id="employeeForm">
+                <div class="input-name">
+                    <i class="fa fa-user lock"></i>
+                    <input type="text" placeholder="Name" class="text-name" id="NameInp">
+                </div>
+                <div class="input-name">
+                    <i class="fa fa-envelope email"></i>
+                    <input type="email" placeholder="Email" class="text-name" id="EmailInp">
+                </div>
+                <div class="input-name">
+                    <i class="fa fa-id-card-o uid"></i>
+                    <input type="number" placeholder="Enter UID" class="text-name" id="CnicInp">
+                </div>
+                <div class="input-name">
+                    <label>Department</label>     
+                </div>
+                <div class="input-name">
+                    <select class="country" id="DeptInp" name="department">
+                        <option>Select a role</option>
+                        <option>Development</option>
+                        <option>Testing</option>
+                        <option>Management</option>
+                        <option>Administrator</option>
+                    </select>
+                    <div class="arrow"></div>
+                </div>
+                <div class="button-row">
+                    <div class="input-name">
+                        <input type="button" class="button" id="AddBtn" value="Thêm">    
+                    </div>
+                    <div class="input-name">
+                        <input type="button" class="button" id="RetBtn" value="Tìm kiếm">    
+                    </div>
+                    <div class="input-name">
+                        <input type="button" class="button" id="UpdBtn" value="Cập nhật">    
+                    </div>
+                    <div class="input-name">
+                        <input type="button" class="button" id="DelBtn" value="Xóa">    
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+  
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeZNXH6bRRKZj-mdm6ciwgO17nbdPsIwY",
+            authDomain: "tien-ff9d3.firebaseapp.com",
+            databaseURL: "https://tien-ff9d3-default-rtdb.firebaseio.com",
+            projectId: "tien-ff9d3",
+            storageBucket: "tien-ff9d3.appspot.com",
+            messagingSenderId: "921291847664",
+            appId: "1:921291847664:web:be26511f9770c227020f35",
+            measurementId: "G-EY934N85NL"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        let NameInp = document.getElementById('NameInp');
+        let EmailInp = document.getElementById('EmailInp');
+        let DeptInp = document.getElementById('DeptInp');
+        let CnicInp = document.getElementById('CnicInp');
+
+        let AddBtn = document.getElementById('AddBtn');
+        let RetBtn = document.getElementById('RetBtn');
+        let UpdBtn = document.getElementById('UpdBtn');
+        let DelBtn = document.getElementById('DelBtn');
+
+        function AddData(){
+            set(ref(db, 'ListOfEmployees/'+ CnicInp.value), {
+                Cnic: Number(CnicInp.value),
+                Department: DeptInp.value,
+                Name: NameInp.value,
+                Email: EmailInp.value,
+            }).then(()=>{
+                alert('Data Added Successfully');
+            }).catch((error)=>{
+                alert('Unsuccessful');
+                console.log(error);
+            });
+        }
+
+        function RetData(){
+            const dbRef = ref(db);
+
+            get(child(dbRef, 'ListOfEmployees/'+ CnicInp.value)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    NameInp.value = snapshot.val().Name;
+                    DeptInp.value = snapshot.val().Department;
+                    EmailInp.value = snapshot.val().Email;
+                }else{
+                    alert('Employee does not exist');
+                }
+            }).catch((error)=>{
+                alert('Unsuccessful');
+                console.log(error);
+            });
+        }
+
+        function UpdateData(){
+            update(ref(db, 'ListOfEmployees/'+ CnicInp.value), {
+                Cnic: Number(CnicInp.value),
+                Department: DeptInp.value,
+                Name: NameInp.value,
+                Email: EmailInp.value,
+            }).then(()=>{
+                alert('Data Updated Successfully');
+            }).catch((error)=>{
+                alert('Unsuccessful');
+                console.log(error);
+            });
+        }
+
+        function DeleteData(){
+            remove(ref(db, 'ListOfEmployees/'+ CnicInp.value))
+            .then(()=>{
+                alert('Data Deleted Successfully');
+            }).catch((error)=>{
+                alert('Unsuccessful');
+                console.log(error);
+            });
+        }
+
+        AddBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            AddData();
+        });
+        RetBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            RetData();
+        });
+        UpdBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            UpdateData();
+        });
+        DelBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            DeleteData();
+        });
+    </script>
+</body>
+</html>

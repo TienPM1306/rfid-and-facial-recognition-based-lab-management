@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>owner</title>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Firebase SDK v5.5.5 -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDeZNXH6bRRKZj-mdm6ciwgO17nbdPsIwY",
+      authDomain: "tien-ff9d3.firebaseapp.com",
+      databaseURL: "https://tien-ff9d3-default-rtdb.firebaseio.com",
+      projectId: "tien-ff9d3",
+      storageBucket: "tien-ff9d3.firebasestorage.app",
+      messagingSenderId: "921291847664",
+      appId: "1:921291847664:web:be26511f9770c227020f35",
+      measurementId: "G-EY934N85NL"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.dataTables.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="../css/web.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="heading" id="headingBox">
+    <h1>Quản lí phòng lab</h1>
+  </div>
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li><button id="employmentBtn"><i class='bx bx-user'></i> Employment</button></li>
+        <li><button id="listBtn"><i class='bx bx-spreadsheet'></i>Sign Up</button></li>
+        <li><button id="legitBtn"><i class='bx bxs-face'></i>Check Legit</button></li>
+        <li><button id="StateBtn"><i class='bx bx-transfer-alt'></i>Change</button></li>
+      </ul>
+    </div>
+    <div class="main">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-table mr-1"></i>
+          Bảng cập nhật 
+        </div>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary" id="export">
+            <i class="fa fa-download" aria-hidden="true"></i> Export
+          </button>
+          <div class="table-responsive">
+            <table class="table table-bordered display responsive nowrap" id="buttonTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>UID</th>
+                  <th>Họ tên nhân viên</th>
+                  <th>Bộ phận</th>
+                  <th>Email</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-header">
+          <i class="fa fa-table mr-1"></i>
+          LIVE STATUS
+        </div>
+        <div class="card-body users">
+          No data available
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Libraries -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+  <script>
+    $(function () {
+      $('.users').html('No data available');
+      document.getElementById("export").onclick = function () { exportCSV() };
+
+      function exportCSV() {
+        console.log("Exporting CSV...");
+        $('#buttonTable').DataTable().button(0).trigger();
+      }
+
+      var button_table = $('#buttonTable').DataTable({
+        "ordering": false,
+        "paging": false,
+        buttons: [
+          {
+            extend: 'csv',
+            filename: 'attendance_data',
+            extension: '.csv'
+          }
+        ],
+        initComplete: function () {
+          $('.buttons-csv').hide();
+        }
+      });
+
+      // Firebase database reference
+      firebase.database().ref('/').on('value', function (snap) {
+        if (snap.val().ListOfEmployees) {
+          let employees = snap.val().ListOfEmployees;
+          console.log(employees);
+          $('.users').html('');
+          Object.keys(employees).forEach(key => {
+            const emp = employees[key];
+            $('.users').append(`
+              <div class="live">
+                <img src="../img/checkin.png" width="150px">
+                <ul>
+                  <li><h3>Name: ${emp.Name}</h3></li>
+                  <li>Department: ${emp.Department}</li>
+                  <li>Email: ${emp.Email}</li>
+                  <li><img id="true${key}" width="50px" src="../img/tick.png"></li>
+                  <li><img id="false${key}" width="50px" src="../img/cross.png"></li>
+                </ul>
+              </div>
+            `);
+            if (emp.status === 1) {
+              $('#true' + key).show();
+              $('#false' + key).hide();
+            } else {
+              $('#true' + key).hide();
+              $('#false' + key).show();
+            }
+          });
+        }
+
+        if (snap.val().attendence) {
+          button_table.clear().draw();
+          let attendance = Object.values(snap.val().attendence);
+          console.log(attendance);
+          attendance.forEach(function (entry) {
+            var row = `
+              <tr>
+                <td>${entry.Cnic}</td>
+                <td>${entry.Name}</td>
+                <td>${entry.Department}</td>
+                <td>${entry.Email}</td>
+                <td>${entry.time}</td>
+                <td>
+                  <span class="badge ${entry.status === 1 ? 'badge-success' : 'badge-danger'}">
+                    ${entry.status === 1 ? 'Check In' : 'Check Out'}
+                  </span>
+                </td>
+              </tr>`;
+            button_table.rows.add($(row)).draw();
+          });
+        }
+      });
+
+      document.getElementById('employmentBtn').onclick = function() {
+        window.location.href = 'emloyment.html';
+      };
+      document.getElementById('listBtn').onclick = function() {
+        window.location.href = 'modify.html';
+      };
+      document.getElementById('legitBtn').onclick = function() {
+        window.location.href = 'Legit.html';
+      };
+      document.getElementById('headingBox').onclick = function() {
+        window.location.href = 'web.html';
+      };
+      
+
+      document.getElementById('StateBtn').onclick = function() {
+        firebase.database().ref('/button').once('value').then(function(snapshot) {
+          var currentStatus = snapshot.val();
+          var newStatus = currentStatus === 1 ? 0 : 1;
+          firebase.database().ref('/').update({ button: newStatus });
+        });
+      };
+    });
+  </script>
+</body>
+
+</html>
